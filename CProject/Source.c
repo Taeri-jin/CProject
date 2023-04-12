@@ -105,14 +105,19 @@ Github Desktop : file - options - 로그인, clone레파지토리
 
 	// 1. num1 변수 = B 변수 + C 변수
 	num1 = b + c;
+	printf("num1 = %d\n", num1);
 	// 2. num2 변수 = E 변수 + F (심볼릭)상수
 	num2 = e + f;
+	printf("num2 = %d\n", num2);
 	// 3. num3 변수 = 리터럴 상수 * B 변수
 	num3 = 17 * b;
+	printf("num3 = %d\n", num3);
 	// 4. num4 변수 = 리터럴 상수 / F (심볼릭)상수
-	num4 = 13 / f;
+	num4 = 17 / f;
+	printf("num4 = %d\n", num4);
 	// 5. num5 변수 = 리터럴 상수 + 리터럴 상수
 	num5 = 23 + 27;
+	printf("num5 = %d\n", num5);
 
 #pragma endregion
 }
