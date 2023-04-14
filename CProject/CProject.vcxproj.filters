@@ -23,5 +23,8 @@
     <ClInclude Include="(2023.04.12)Variable.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
+    <ClInclude Include="%282023.04.13%29bit.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>
