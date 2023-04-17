@@ -142,8 +142,9 @@
     <ClCompile Include="Source.c" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="(2023.04.12)Variable.h" />
-    <ClInclude Include="%282023.04.13%29bit.h" />
+    <ClInclude Include="%282023.04.12%29변수.h" />
+    <ClInclude Include="%282023.04.13%29비트.h" />
+    <ClInclude Include="(2023.04.14)조건문.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
