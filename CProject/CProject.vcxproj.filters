@@ -32,5 +32,8 @@
     <ClInclude Include="(2023.04.17)반복문.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
+    <ClInclude Include="(2023.04.18)포인터.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>
