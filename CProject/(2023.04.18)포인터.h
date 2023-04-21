@@ -15,10 +15,6 @@ void main()
 		count--;
 	}
 	*/
-
-
-
-
 #pragma endregion
 
 #pragma region continue ¹®

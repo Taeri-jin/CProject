@@ -35,5 +35,11 @@
     <ClInclude Include="(2023.04.18)포인터.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
+    <ClInclude Include="%282023.04.19%29포인터의 상수화.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="(2023.04.20)배열.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>
