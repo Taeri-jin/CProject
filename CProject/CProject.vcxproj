@@ -139,7 +139,9 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="Source.c" />
+    <ClCompile Include="Source.c">
+      <SDLCheck Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</SDLCheck>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="%282023.04.12%29변수.h" />
@@ -149,6 +151,9 @@
     <ClInclude Include="(2023.04.18)포인터.h" />
     <ClInclude Include="%282023.04.19%29포인터의 상수화.h" />
     <ClInclude Include="(2023.04.20)배열.h" />
+    <ClInclude Include="(2023.04.21)문자열.h" />
+    <ClInclude Include="(2023.04.24)함수.h" />
+    <ClInclude Include="SoundManager.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

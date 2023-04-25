@@ -1,103 +1,91 @@
-#include <stdio.h>  
-#include <limits.h>
+#include <stdio.h>
+#include "SoundManager.h" // 헤더파일 가져오는법("")
 
-// #include 파일 처리 전처리문
-// 시스템 파일이나 사용자 정의 파일을 프로그램 소스에 삽입하여 사용하기 위한 선언문
+#pragma region 재귀 함수
+// 어떤 함수에서 자신을 다시 호출하여 작업을 수행하는 함수 = 자기 자신을 다시 호출
+// 스택 => LIFO구조(Last in First out) => UI매니저, 팝업 시스템 관리할때 사용
+// 메모리에 데이터를 넣으면 밑에부터 밑에서 부터 쌓이고 데이터를 뽑을려면 위에거부터 뽑힘
+// (위)코드 영역에 함수의 주소 저장 -> 데이터 영역 -> 힙 -> 자유 영역 -> 스택(아래)
+// 스택에 메모리가 쌓이다가 자유영역을 침범하면 스택 오버플로우
 
-// 전처리기란?
-// 프로그램이 컴파일되기 이전에 프로그램에 대한 사전 처리하는 과정
+void Recursion(int x)
+{
+	if (x == 1)
+	{
+		// return 값을 반환한다
+		// return 함수를 반환한다(종료한다)
+		// 재귀 함수는 함수를 계속 호출하기 때문에 스택 영역에 메모리가 계속 쌓이게 되므로 스택 오버플로우가 발생
+		return; // return 만나서 종료되는게 아니라 이전의 만들어진 메모리로 가서 차례로 해제됨
+	}
+	printf("Recursion() 함수 호출\n");
 
-// C/C++ 빌드 과정
-// 소스 코드 작성 -> 전처리 과정 -(컴파일)-> .Obj(010101)만들어짐 -> 링킹(StartUp Code) -> exe 파일
+	Recursion(x - 1);
+}
+#pragma endregion
 
-// C# 빌드 과정
-// 소스 코드 작성 -> IL 언어 변환 -> Mac/Window/Linux
+#pragma region 팩토리얼
+// !5 -> 120 출력
+int Factorial(int x)
+{
+	if (x == 1)
+	{
+		return 1;
+	}
+	else
+	{
+		return x * Factorial(x - 1);
+	}
+}
+#pragma endregion
 
-#pragma region 매크로
-	// 프로그램 내에서 특정한 데이터가 문자열로 정의되고 처리되는 과정
-	// 선언할때 변수가 아니라서 다 대문자로 선언함
-	// 컴파일러가 아닌 선행처리기에 의해서 처리되는 문장이기 때문에 명령문 끝에 ; 사용안함
-	// 매크로는 메모리 공간을 가지고 있지 않아서 리터럴 상수(변경불가능)
-	// 주석 처리 안해도 됨
+#pragma region 인라인 함수
+// 함수를 호출하는 대신 함수가 호출되는 위치마다 함수의 코드를 복사하여 전달하는 방식의 함수
 
-// 여러 배열을 선언했을 때 한번에 바꿀 수 있음 (int a[SIZE])
-#define SIZE 5 // SIZE == 5
-
+inline void Function()
+{
+	// 함수 호출 과정이 없음. main에서 바로 진행 => 오버 헤드 현상이 줄어듬
+	// 인라인 함수는 함수를 호출하는 과정이 없으므로 처리 속도가 빠르지만 인라인 함수를 많이 사용하게 되면 함수의 코드가 복사되기 때문에 실행 파일의 크기가 커지게 됨
+	printf("Function() 호출\n"); // 1~2줄(적은양)은 인라인 처리 하면 좋음. 코드량 많으면 x
+}
 #pragma endregion
 
 void main()
 {
-#pragma region 문자열
-	// 연속적인 메모리 공간에 저장된 문자 변수의 집합
+	// 재귀 함수
+	//Recursion(3);
+	
+	// 팩토리얼
+	// int x;
+	// printf("숫자 입력 : ");
+	// scanf_s("%d", &x);
+	// printf("Factorial의 값 : %d\n", Factorial(x));
 
-	// 문자열의 경우 포인터를 이용하여 문자열 상수를 가리키도록 설정할 수 있음
-	// const char* name = "James"; // name에 J의 주소값 저장, J를 가리키고 있음, 문자열 상수이기 때문에 const로 접근 방지
-	// 
-	// // %s : 문자열을 출력하는 서식
-	// printf("name 변수의 값 : %p\n", name);
-	// printf("name 변수가 가리키는 값 : %s\n", name);
-	// 
-	// // 문자열 상수는 데이터 영역의 읽기 전용 공간에 저장되기 때문에 문자열의 값을 변경할 수 없음
-	// // *name = 'G'; James가 데이터 read only data 영역(읽기 전용) => 값을 바꾸는게 불가능, 역참조 불가능
-	// 
-	// name = "Tom"; // read only data 영역에 Tom의 메모리가 만들어지면서 T의 주소값이 들어가게 됨
-	// 
-	// // 문자열은 맨 마지막에 무효의 문자(NULL)가 자동으로 포함됨
-	// // NULL 문자의 역할은 문자열의 끝을 알려줌
-	// 
-	// printf("name 변수의 값 : %p\n", name); 
-	// printf("name 변수가 가리키는 값 : %s\n", name);
+	// 인라인 함수
+	// Function();
+	
+#pragma region 반복문 (do~while)
+	// 조건과 상관없이 무조건 한 번의 작업을 수행한 다음 조건에 따라 명령문을 실행하는 반복문
+	// 1. 한 번 반복할 내용 실행
+	// 2. 조건 검사 (참) 실행 <-> (거짓) 종료
+	// 3. 반복할 내용 실행(조건이 거짓이 될 때까지 2->3->2->3 반복 )
+	/*
+	do
+	{
+		반복할 내용
+	}while(조건);
+	*/
+	
+	/*
+	int count = 3;
 
-
-	// 배열을 이용한 문자열
-	// char string[] = "Game";
-	// 
-	// // 문자열은 공백도 함께 메모리 공간에 포함됨
-	// // 문자 배열 사이에 무효의 문자를 넣게 되면 무효의 문자까지만 문자열을 출력
-	// char string1[] = { "App l\0e" };
-	// 
-	// 
-	// printf("string의 값 : %s\n", string);
-	// printf("string1의 값 : %s\n", string1);
-	// 
-	// string[1] = 'b';
-	// string[3] = 'o';
-	// 
-	// printf("string의 값 : %s\n", string);
-
-	// rodata 영역에 있는 문자열을 스택영역으로 복사해 가져와서 다른 값 변경 불가능 
-	// char 배열은 포인터 상수 => 인덱스에 접근해 값 변경은 가능. 주소값으로 접근해 값 변경은 불가능.
-	// string = "Content"; -> 주소에 주소를 넣으려고 하고 있음
-	// string = string1;
+	do
+	{
+		printf("로그인 시도\n");
+		count--;
+	} while (count > 0);
+	*/
 #pragma endregion
 
-	// 매크로
-	// printf("매크로 SIZE의 값 : %d\n", SIZE);
-#pragma region 최댓값과 최솟값
-	// 배열[5] = {10,5,6,99,1};
+	Sound();
 
-#define ARRAYSIZE 5
-
-	int arr[] = { 10, 5, 6, 99, 1 };
-	int min = INT_MAX;
-	int max = INT_MIN;
-
-	for (int i = 0; i < ARRAYSIZE; i++)
-	{
-		if (max < arr[i])
-		{
-			max = arr[i];
-		}
-	}
-	printf("최대값 : %d\n", max);
-
-	for (int i = 0; i < ARRAYSIZE; i++)
-	{
-		if (min > arr[i])
-		{
-			min = arr[i];
-		}
-	}
-	printf("최솟값 : %d\n", min);
-#pragma endregion
 }
