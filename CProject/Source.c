@@ -1,91 +1,123 @@
 #include <stdio.h>
-#include "SoundManager.h" // 헤더파일 가져오는법("")
 
-#pragma region 재귀 함수
-// 어떤 함수에서 자신을 다시 호출하여 작업을 수행하는 함수 = 자기 자신을 다시 호출
-// 스택 => LIFO구조(Last in First out) => UI매니저, 팝업 시스템 관리할때 사용
-// 메모리에 데이터를 넣으면 밑에부터 밑에서 부터 쌓이고 데이터를 뽑을려면 위에거부터 뽑힘
-// (위)코드 영역에 함수의 주소 저장 -> 데이터 영역 -> 힙 -> 자유 영역 -> 스택(아래)
-// 스택에 메모리가 쌓이다가 자유영역을 침범하면 스택 오버플로우
+// 코드 영역은 함수의 주소, 리터럴 저장
+#pragma region 전역 변수
+	// 함수 외부에서 선언된 변수로 프로그램 어디에서나 접근 가능하며, 프로그램이 종료되어야만 메모리에서 해제되는 변수
+	// 데이터 영역에 초기화가 이루어진 전역변수, 정적 변수 저장(프로그램이 실행될 때 메모리에 올라가게 되고, 프로그램이 종료될 때 메모리가 해제됨)
 
-void Recursion(int x)
-{
-	if (x == 1)
-	{
-		// return 값을 반환한다
-		// return 함수를 반환한다(종료한다)
-		// 재귀 함수는 함수를 계속 호출하기 때문에 스택 영역에 메모리가 계속 쌓이게 되므로 스택 오버플로우가 발생
-		return; // return 만나서 종료되는게 아니라 이전의 만들어진 메모리로 가서 차례로 해제됨
-	}
-	printf("Recursion() 함수 호출\n");
-
-	Recursion(x - 1);
-}
+int globalValue = 5;
+	
 #pragma endregion
-
-#pragma region 팩토리얼
-// !5 -> 120 출력
-int Factorial(int x)
-{
-	if (x == 1)
-	{
-		return 1;
-	}
-	else
-	{
-		return x * Factorial(x - 1);
-	}
-}
+	
+#pragma region 정적 변수
+    // 지역 변수와 전역 변수의 특징을 둘다 가지고 있으며, 한 번만 초기화가 이루어짐
+static int attack;
+	
+void Calculator()
+{	
+	// static int value = 1;
+	
+	// value += 1;
+	
+	// printf("정적 변수 value의 값 : %d\n", value);
+}	
 #pragma endregion
-
-#pragma region 인라인 함수
-// 함수를 호출하는 대신 함수가 호출되는 위치마다 함수의 코드를 복사하여 전달하는 방식의 함수
-
-inline void Function()
-{
-	// 함수 호출 과정이 없음. main에서 바로 진행 => 오버 헤드 현상이 줄어듬
-	// 인라인 함수는 함수를 호출하는 과정이 없으므로 처리 속도가 빠르지만 인라인 함수를 많이 사용하게 되면 함수의 코드가 복사되기 때문에 실행 파일의 크기가 커지게 됨
-	printf("Function() 호출\n"); // 1~2줄(적은양)은 인라인 처리 하면 좋음. 코드량 많으면 x
+	
+void Function()
+{	
+	// int count = 0;
+	
+	// count += 1;
+	// globalValue += 1;
+	
+	// printf("지역 변수 count의 값 : %d\n", count);
+	// printf("globalValue의 값 : %d\n", globalValue);
 }
-#pragma endregion
 
 void main()
 {
-	// 재귀 함수
-	//Recursion(3);
+#pragma region 지역 변수
+	// '블록'{ } 내에서 선언된 변수로 블록 내에서만 유효하며, 블록이 종료되면 메모리에서 사라지는 변수
+	// 스택에 지역변수, 매개변수 저장
 	
-	// 팩토리얼
-	// int x;
-	// printf("숫자 입력 : ");
-	// scanf_s("%d", &x);
-	// printf("Factorial의 값 : %d\n", Factorial(x));
+	// A 지역
+	// int data = 100; // void main( ) 함수 안에 있는 data 변수
+	
+	// {
+	// 	B 지역
+	// 	int data = 20; // 블록 내에 있는 지역 변수
+	// 	printf("data의 값 : %d\n", data);
+	// } // 블록이 종료되면서 블록 내에 int data 메모리 해제
+	
+	// printf("data의 값 : %d\n", data);
+	
+#pragma endregion
+	
+	
+	// Function(); // 1
+	// Function(); // 1
+	
+	// Calculator();
+	// Calculator();
+	
+	// BSS영역에 초기화가 이루어지지 않은 전역 변수, 정적 변수가 저장 <= 프로그램 크기에 포함되지 않음 / BSS영역은 데이터영역과 힙영역 사이에 있음
+	// printf("정적 변수 attack의 값 : %d\n", attack); 
+	
+	// 힙 영역에 malloc() <= 직접 메모리를 해제해야 함
 
-	// 인라인 함수
-	// Function();
-	
-#pragma region 반복문 (do~while)
-	// 조건과 상관없이 무조건 한 번의 작업을 수행한 다음 조건에 따라 명령문을 실행하는 반복문
-	// 1. 한 번 반복할 내용 실행
-	// 2. 조건 검사 (참) 실행 <-> (거짓) 종료
-	// 3. 반복할 내용 실행(조건이 거짓이 될 때까지 2->3->2->3 반복 )
-	/*
-	do
-	{
-		반복할 내용
-	}while(조건);
-	*/
-	
-	/*
-	int count = 3;
+#pragma region 범용 포인터
+	// 자료형이 정해지지 않은 상태로 모든 자료형을 저장할 수 있는 포인터
+	// 범용 포인터는 메모리 주소에 접근해서 값을 변경할 수 없음. 변수의 메모리에 접근하려면 범용 포인터가 가리키는 변수의 자료형으로 형 변환 해주어야 함
 
-	do
-	{
-		printf("로그인 시도\n");
-		count--;
-	} while (count > 0);
-	*/
+	// char charData = 'X';
+	// int intData = 10;
+	// // float floatData = 5.75f;
+	// 
+	// void* ptr = NULL;
+	// 
+	// ptr = &charData;
+	// 
+	// // *ptr = 'M'; <= 가리키는 타입이 void이기 때문에 역참조가 불가능
+	// *(char*)ptr = 'M'; // 강제적으로 형 변환
+	// printf("ptr이 가리키는 값 : %c\n", *(char*)ptr);
+	// 
+	// ptr = &intData;
+	// *(int*)ptr = 47; 
+	// printf("ptr이 가리키는 값 : %d\n", *(int*)ptr);
 #pragma endregion
 
-	Sound();
+#pragma region 약수
+	// 문제) 내가 입력한 숫자의 약수를 출력하세요.
+	// 12 -> 1, 2, 3, 4, 6, 12
+
+	// int num;
+	// 
+	// printf("숫자 입력 : ");
+	// scanf_s("%d", &num);
+	// 
+	// for (int i = 1 ; i <= num ; i++)
+	// {
+	// 	if (num % i == 0)
+	// 	{
+	// 		printf("%d ", i);
+	// 	}
+	// }
+#pragma endregion
+
+#pragma region ShortCircuit
+	// 논리 연산에서 두 피연산자 중 어느 한쪽만 '참'이면 우측의 피연산자의 값은 평가하지 않고 바로 결과를 얻는 행위
+
+	// &&, || (논리 연산자)
+	// &, | (비트 연산자)
+
+	int x = 0;
+	int y = 1;
+
+	if (++x == 1 && ++y == 1) {}
+	
+	printf("x의 값 : %d, y의 값 : %d\n", x, y);
+#pragma endregion
+
+
 
 }
