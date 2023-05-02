@@ -154,7 +154,11 @@
     <ClInclude Include="(2023.04.21)문자열.h" />
     <ClInclude Include="(2023.04.24)함수.h" />
     <ClInclude Include="(2023.04.25)재귀함수.h" />
+    <ClInclude Include="(2023.04.26)변수의 범위.h" />
     <ClInclude Include="SoundManager.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="%282023.04.27%29동적할당.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

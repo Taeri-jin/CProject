@@ -1,123 +1,93 @@
-#include <stdio.h>
+#include <stdio.h> 
 
-// 코드 영역은 함수의 주소, 리터럴 저장
-#pragma region 전역 변수
-	// 함수 외부에서 선언된 변수로 프로그램 어디에서나 접근 가능하며, 프로그램이 종료되어야만 메모리에서 해제되는 변수
-	// 데이터 영역에 초기화가 이루어진 전역변수, 정적 변수 저장(프로그램이 실행될 때 메모리에 올라가게 되고, 프로그램이 종료될 때 메모리가 해제됨)
+#pragma region 구조체
+// 여러 개의 변수를 하나의 집합으로 구조화한 다음 하나의 객체를 생성하는 것
 
-int globalValue = 5;
-	
+struct Player
+{
+    char grade;   // 1 byte
+    int attack;   // 4 byte
+    float health; // 4 byte
+
+    // 구조체를 선언하기 전에 구조체는 메모리 공간이 생성되지 않으므로, 구조체 내부에 있는 데이터를 초기화할 수 없음
+};
+
+struct Model
+{
+    int weight;   // 4 byte
+    short mesh;   // 2 byte
+    // Padding       2 byte
+    double size;  // 8 byte
+
+    // 구조체 크기의 경우 멤버 변수의 순서에 따라 메모리의 크기가 다르게 설정될 수 있으며, 구조체 크기를 결정하는 형태는 기본 자료형으로만 구성
+};
 #pragma endregion
-	
-#pragma region 정적 변수
-    // 지역 변수와 전역 변수의 특징을 둘다 가지고 있으며, 한 번만 초기화가 이루어짐
-static int attack;
-	
-void Calculator()
-{	
-	// static int value = 1;
-	
-	// value += 1;
-	
-	// printf("정적 변수 value의 값 : %d\n", value);
-}	
-#pragma endregion
-	
-void Function()
-{	
-	// int count = 0;
-	
-	// count += 1;
-	// globalValue += 1;
-	
-	// printf("지역 변수 count의 값 : %d\n", count);
-	// printf("globalValue의 값 : %d\n", globalValue);
-}
 
 void main()
 {
-#pragma region 지역 변수
-	// '블록'{ } 내에서 선언된 변수로 블록 내에서만 유효하며, 블록이 종료되면 메모리에서 사라지는 변수
-	// 스택에 지역변수, 매개변수 저장
-	
-	// A 지역
-	// int data = 100; // void main( ) 함수 안에 있는 data 변수
-	
-	// {
-	// 	B 지역
-	// 	int data = 20; // 블록 내에 있는 지역 변수
-	// 	printf("data의 값 : %d\n", data);
-	// } // 블록이 종료되면서 블록 내에 int data 메모리 해제
-	
-	// printf("data의 값 : %d\n", data);
-	
-#pragma endregion
-	
-	
-	// Function(); // 1
-	// Function(); // 1
-	
-	// Calculator();
-	// Calculator();
-	
-	// BSS영역에 초기화가 이루어지지 않은 전역 변수, 정적 변수가 저장 <= 프로그램 크기에 포함되지 않음 / BSS영역은 데이터영역과 힙영역 사이에 있음
-	// printf("정적 변수 attack의 값 : %d\n", attack); 
-	
-	// 힙 영역에 malloc() <= 직접 메모리를 해제해야 함
+#pragma region 구조체
+    // struct Player player;
 
-#pragma region 범용 포인터
-	// 자료형이 정해지지 않은 상태로 모든 자료형을 저장할 수 있는 포인터
-	// 범용 포인터는 메모리 주소에 접근해서 값을 변경할 수 없음. 변수의 메모리에 접근하려면 범용 포인터가 가리키는 변수의 자료형으로 형 변환 해주어야 함
+    // player.attack = 10;
+    // player.grade = 'A';
+    // player.health = 91.25f;
 
-	// char charData = 'X';
-	// int intData = 10;
-	// // float floatData = 5.75f;
-	// 
-	// void* ptr = NULL;
-	// 
-	// ptr = &charData;
-	// 
-	// // *ptr = 'M'; <= 가리키는 타입이 void이기 때문에 역참조가 불가능
-	// *(char*)ptr = 'M'; // 강제적으로 형 변환
-	// printf("ptr이 가리키는 값 : %c\n", *(char*)ptr);
-	// 
-	// ptr = &intData;
-	// *(int*)ptr = 47; 
-	// printf("ptr이 가리키는 값 : %d\n", *(int*)ptr);
+    // printf("player.attack의 값 : %d\n", player.attack);
+    // printf("player.grade의 값 : %c\n", player.grade);
+    // printf("player.health의 값 : %f\n", player.health);
+
+    // 구조체 초기화
+    // 구조체를 초기화 리스트로 초기화할 때 구조체에 선언된 변수의 순서로 정의해야함
+
+    //                        char int float
+    // struct Player newPlayer = {'B', 15 , 66.85f};
+    // 
+    // printf("newPlayer.attack의 값 : %d\n", newPlayer.attack);
+    // printf("newPlayer.grade의 값 : %c\n", newPlayer.grade);
+    // printf("newPlayer.health의 값 : %f\n", newPlayer.health);
 #pragma endregion
 
-#pragma region 약수
-	// 문제) 내가 입력한 숫자의 약수를 출력하세요.
-	// 12 -> 1, 2, 3, 4, 6, 12
+#pragma region 바이트 패딩
+    // 멤버 변수를 메모리에서 CPU로 읽을 때 한 번에 읽을 수 있도록, 컴파일러가 레지스터의 블록에 맞추어 바이트를 패딩 해주는 작업
+    // 되도록 변수 크기가 작은것부터 큰순으로 작성하기
 
-	// int num;
-	// 
-	// printf("숫자 입력 : ");
-	// scanf_s("%d", &num);
-	// 
-	// for (int i = 1 ; i <= num ; i++)
-	// {
-	// 	if (num % i == 0)
-	// 	{
-	// 		printf("%d ", i);
-	// 	}
-	// }
+    // struct Player otherPlayer;
+    // struct Model model;
+    // 
+    // 구조체의 크기는 구조체를 구성하는 멤버 중에 크기가 가장 큰 자료형의 배수가 되도록 설정
+    // printf("Player의 크기 : %d\n", sizeof(otherPlayer));
+    // printf("Model의 크기 : %d\n", sizeof(model));
+
 #pragma endregion
 
-#pragma region ShortCircuit
-	// 논리 연산에서 두 피연산자 중 어느 한쪽만 '참'이면 우측의 피연산자의 값은 평가하지 않고 바로 결과를 얻는 행위
+#pragma region 소수
+    // 1보다 큰 자연수 중 1과 자기 자신만을 약수로 가지는 수
 
-	// &&, || (논리 연산자)
-	// &, | (비트 연산자)
+   // int count = 0;
+   // int number = 0;
+   //
+   // scanf_s("%d", &number);
+   //
+   // for (int i = 2; i <= number; i++)
+   // {
+   //     if (number % i == 0)
+   //     {
+   //         count++; 
+   //     }
+   // }
+   //
+   // if (count == 1)
+   // {
+   //     printf("소수입니다.");
+   // }
+   // else
+   // {
+   //     printf("소수가 아닙니다.");
+   // }
 
-	int x = 0;
-	int y = 1;
+    // 4 <- 입력
 
-	if (++x == 1 && ++y == 1) {}
-	
-	printf("x의 값 : %d, y의 값 : %d\n", x, y);
+    // 2 입력 -> 소수
+    // 4 입력 -> 소수가 아닙니다.
 #pragma endregion
-
-
-
 }
